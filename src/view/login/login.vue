@@ -6,26 +6,65 @@
             <el-row>
                 <el-row class="title">
                     <el-col :span="24"><div class="grid-content bg-purple-dark">后台管理系统</div></el-col>
-              </el-row>
+                </el-row>
                 <el-form-item label="账号" :inline="true">
-                  <el-input  placeholder="请输入账号" class="input-item" ></el-input>
+                  <el-input  class="input-item"  v-model="name.value" :placeholder="name.message"   @focus="focus1()"></el-input>
+                  <el-col :span="24" v-show="name.error" class="massge">{{name.error}}</el-col>
                 </el-form-item>
                 <el-form-item label="密码" :inline="true">
-                  <el-input  placeholder="请输入密码" class="input-item" ></el-input>
+                  <el-input  class="input-item"  :placeholder="pwd.message"  v-model="pwd.value"  @focus="focus2()"></el-input>
+                  <el-col :span="24" v-show="pwd.error" class="massge">{{pwd.error}}</el-col>
                 </el-form-item>
                 <el-form-item label="验证码" :inline="true">
                   <el-input  placeholder="请输入验证码" class="input-item"></el-input>
+                  <!-- <el-col :span="24" v-show="pwd.error" class="massge">{{pwd.error}}</el-col> -->
                 </el-form-item>
             </el-row>
-             <el-row  class="warm-title">注：仅供测试使用</el-row>
-              <el-button type="primary" class="btn-login">登录</el-button>
+             <el-row  class="warm-title">注：仅供测试使用,输入任何数据可登录</el-row>
+              <el-button type="primary" class="btn-login" @click="btnLogin">登录</el-button>
          </el-form>
-     </div>
+     </div> 
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      name: {
+        value: "",
+        message: "请输入账号", //提示语
+        error: "" //
+      },
+      pwd: {
+        value: "", //输入的值
+        message: "请输入密码", //提示语
+        error: "" //
+      }
+    };
+  },
+  methods: {
+    //点击登录
+    btnLogin() {
+      var name = this.name.value;
+      var pwd = this.pwd.value;
+      console.log(pwd);
+      if (name == "" || pwd == "") {
+        if (name == "") {
+          this.name.error = "输入框为空";
+        }
+        if (pwd == "") {
+          this.pwd.error = "输入框为空";
+        }
+        return false;
+      }
+      this.router.replace();
+    },
+    //输入框焦点事件
+    focus1() {
+      this.name.error = false;
+    },
+    focus2() {
+      this.pwd.error = false;
+    }
   }
 };
 </script> 
@@ -58,6 +97,7 @@ export default {
     .el-form-item {
       padding-right: 20px;
       margin-top: 20px;
+      position: relative;
     }
     .title {
       height: 60px;
@@ -66,9 +106,8 @@ export default {
       color: #fff;
       background-color: #409eff;
     }
-    .warm-title{
-      
-      padding-left:24px;
+    .warm-title {
+      padding-left: 24px;
     }
     .btn-login {
       width: 300px;
@@ -77,6 +116,13 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       -webkit-transform: translateX(-50%);
+    }
+    .massge {
+      position: absolute;
+      bottom: -29px;
+      left: 0;
+      color: #ff4040;
+      font-size: 12px;
     }
   }
 }
