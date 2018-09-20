@@ -26,6 +26,7 @@
      </div> 
 </template>
 <script>
+import router from '../../router'
 export default {
   data() {
     return {
@@ -46,7 +47,6 @@ export default {
     btnLogin() {
       var name = this.name.value;
       var pwd = this.pwd.value;
-      console.log(pwd);
       if (name == "" || pwd == "") {
         if (name == "") {
           this.name.error = "输入框为空";
@@ -56,7 +56,14 @@ export default {
         }
         return false;
       }
-      this.router.replace();
+      var data={
+        name:name,
+        pwd:pwd
+      };
+      sessionStorage.setItem('user',JSON.stringify(data));
+       router.replace({
+          name:"Layout"
+       });
     },
     //输入框焦点事件
     focus1() {
